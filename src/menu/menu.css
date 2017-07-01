@@ -255,6 +255,8 @@
 }
 
 .menu__group-title {
+    display: inline-block;
+    cursor: pointer;
     font-weight: var(--font-weight-accent);
 }
 

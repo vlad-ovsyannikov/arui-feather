@@ -66,13 +66,9 @@
 }
 
 .menu_size_s {
-    .menu__group-title {
-        padding: 10px 12px;
-        font-size: var(--font-size-s);
-    }
-
+    .menu__group-title,
     .menu-item {
-        padding: 6px 10px;
+        padding: 7px 10px;
         font-size: var(--font-size-s);
     }
 
@@ -106,17 +102,13 @@
 
     .menu__group {
         .menu-item {
-            padding-left: 36px;
+            padding-left: 24px;
         }
     }
 }
 
 .menu_size_m {
-    .menu__group-title {
-        padding: 8px 12px;
-        font-size: var(--font-size-m);
-    }
-
+    .menu__group-title,
     .menu-item {
         padding: 9px 12px;
         font-size: var(--font-size-m);
@@ -152,19 +144,15 @@
 
     .menu__group {
         .menu-item {
-            padding-left: 48px;
+            padding-left: 36px;
         }
     }
 }
 
 .menu_size_l {
-    .menu__group-title {
-        padding: 10px 17px;
-        font-size: var(--font-size-l);
-    }
-
+    .menu__group-title,
     .menu-item {
-        padding: 12px 15px 13px;
+        padding: 12px 15px;
         font-size: var(--font-size-l);
     }
 
@@ -198,19 +186,15 @@
 
     .menu__group {
         .menu-item {
-            padding-left: 56px;
+            padding-left: 36px;
         }
     }
 }
 
 .menu_size_xl {
-    .menu__group-title {
-        padding: 12px 19px;
-        font-size: var(--font-size-xl);
-    }
-
+    .menu__group-title,
     .menu-item {
-        padding: 11px 15px;
+        padding: 14px 17px;
         font-size: var(--font-size-xl);
     }
 
@@ -244,13 +228,15 @@
 
     .menu__group {
         .menu-item {
-            padding-left: 50px;
+            padding-left: 48px;
         }
     }
 }
 
 .menu__group-title {
-    font-weight: var(--font-weight-medium);
+    display: inline-block;
+    cursor: pointer;
+    font-weight: var(--font-weight-normal);
 }
 
 .menu__group {

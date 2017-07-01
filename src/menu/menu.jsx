@@ -10,6 +10,7 @@ import styleType from 'react-style-proptype';
 import Type from 'prop-types';
 
 import MenuItem from '../menu-item/menu-item';
+import SlideDown from '../slide-down/slide-down';
 
 import cn from '../cn';
 import { isNodeOutsideElement } from '../lib/window';
@@ -56,6 +57,11 @@ class Menu extends React.Component {
             Type.string,
             Type.number
         ])),
+        /** Список значений раскрытых групп */
+        expandedGroups: Type.arrayOf(Type.oneOfType([
+            Type.string,
+            Type.number
+        ])),
         /** Размер компонента */
         size: Type.oneOf(['s', 'm', 'l', 'xl']),
         /** Объект со стилями */
@@ -91,8 +97,9 @@ class Menu extends React.Component {
     };
 
     state = {
-        highlightedItem: null,
         checkedItems: [],
+        expandedGroups: [],
+        highlightedItem: null,
         hovered: false
     };
 
@@ -152,19 +159,51 @@ class Menu extends React.Component {
 
         content.forEach((item) => {
             if (item.type === 'group') {
-                result.push(
-                    <div
-                        className={ cn('group') }
-                        key={ `group_${groupKey}` }
-                    >
-                        { !!item.title &&
-                            <div className={ cn('group-title') }>
-                                { item.title }
+                if (this.props.mode === 'basic') {
+                    let { highlightedItem } = this.state;
+                    let isExpanded = this.getIndexInExpandedGroupsList(item.value) !== -1;
+
+                    result.push(
+                        <div
+                            className={ cn('group', { expanded: isExpanded }) }
+                            key={ `group_${groupKey}` }
+                        >
+                            {
+                                !!item.title &&
+                                <div
+                                    className={ cn('group-title', {
+                                        hovered: highlightedItem && highlightedItem.value === item.value
+                                    }) }
+                                    onClick={ () => this.handleGroupTitleClick(item) }
+                                    onMouseEnter={ () => this.handleMenuItemMouseEnter(item) }
+                                    onMouseLeave={ this.handleMenuItemMouseLeave }
+                                >
+                                    { item.title }
+                                </div>
+                            }
+                            <div className={ cn('group-list') }>
+                                <SlideDown isExpanded={ isExpanded }>
+                                    { this.renderMenuItemList(cn, item.content) }
+                                </SlideDown>
                             </div>
-                        }
-                        { this.renderMenuItemList(cn, item.content) }
-                    </div>
-                );
+                        </div>
+                    );
+                } else {
+                    result.push(
+                        <div
+                            className={ cn('group') }
+                            key={ `group_${groupKey}` }
+                        >
+                            { !!item.title &&
+                                <div className={ cn('group-title') }>
+                                    { item.title }
+                                </div>
+                            }
+                            { this.renderMenuItemList(cn, item.content) }
+                        </div>
+                    );
+                }
+
                 groupKey += 1;
             } else {
                 result.push(this.renderMenuItem(item));
@@ -200,7 +239,7 @@ class Menu extends React.Component {
                 { ...menuItemProps }
                 ref={ (instance) => { menuItem.instance = instance; } }
                 key={ item.value }
-                checked={ this.props.mode !== 'basic' && this.getIndexInCheckedItemsList(item.value) !== -1 }
+                checked={ this.getIndexInCheckedItemsList(item.value) !== -1 }
                 type={ this.props.mode !== 'basic' ? 'block' : itemProps.type }
                 onMouseEnter={ () => this.handleMenuItemMouseEnter(menuItem) }
                 onMouseLeave={ this.handleMenuItemMouseLeave }
@@ -209,6 +248,11 @@ class Menu extends React.Component {
                 { item.content }
             </MenuItem>
         );
+    }
+
+    @autobind
+    handleGroupTitleClick(group) {
+        this.setNewExpandedGroups(group);
     }
 
     @autobind
@@ -416,6 +460,22 @@ class Menu extends React.Component {
         }
     }
 
+    setNewExpandedGroups(group) {
+        let value = group.value;
+        let expandedGroups = Array.from(this.state.expandedGroups);
+        let indexInExpandedGroups = this.getIndexInExpandedGroupsList(value);
+
+        if (indexInExpandedGroups === -1) {
+            expandedGroups.push(value);
+        } else {
+            expandedGroups.splice(indexInExpandedGroups, 1);
+        }
+
+        this.setState({
+            expandedGroups
+        });
+    }
+
     setNewCheckedItems(item) {
         let value = item.value;
         let checkedItems = this.props.checkedItems !== undefined
@@ -468,6 +528,12 @@ class Menu extends React.Component {
         if (this.props.onItemCheck) {
             this.props.onItemCheck(checkedItems);
         }
+    }
+
+    @autobind
+    getIndexInExpandedGroupsList(value) {
+        let expandedGroups = this.props.expandedGroups ? this.props.expandedGroups : this.state.expandedGroups;
+        return expandedGroups.indexOf(value);
     }
 
     @autobind

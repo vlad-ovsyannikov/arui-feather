@@ -27,6 +27,7 @@ const MENU_ITEM2 = {
 const MENU_GROUP = {
     type: 'group',
     title: 'Group Title',
+    value: 'group1',
     content: [
         MENU_ITEM1
     ]
@@ -67,6 +68,9 @@ describe('menu', () => {
         expect(menuGroupNode).to.have.class('menu__group');
         expect(menuGroupTitleNode).to.have.class('menu__group-title');
         expect(menuGroupTitleNode).to.have.text('Group Title');
+    });
+
+    it('should render basic menu with expanded group from props', () => {
     });
 
     it('should auto check first item when mode=`radio` and `checkedItems` property is empty', () => {

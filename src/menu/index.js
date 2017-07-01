@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import '../menu-item';
+import '../slide-down';
 
 import './menu.css';
 import './menu_theme_alfa-on-white.css';

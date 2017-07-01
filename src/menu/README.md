@@ -38,7 +38,8 @@ const MENU_2 = [
     },
     {
         type: 'group',
-        title: 'Group Title',
+        title: 'Group 1',
+        value: 'group1',
         content: [
             {
                 type: 'item',
@@ -60,7 +61,8 @@ const MENU_2 = [
     },
     {
         type: 'group',
-        title: 'Group Title',
+        title: 'Group 2',
+        value: 'group2',
         content: [
             {
                 type: 'item',

@@ -15,6 +15,8 @@ Alfa Bank UI lightweight library
 
 <br />
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/alfalab.js.svg)](https://saucelabs.com/u/alfalab.js)
+
 Как запустить?
 --------------
 

@@ -14,7 +14,6 @@
 .select {
     display: inline-block;
     max-width: 100%;
-    min-width: 150px;
     font-family: var(--font);
     font-weight: var(--font-weight-normal);
 
@@ -133,6 +132,11 @@
             .select-button__text {
                 opacity: var(--opacity-minor);
             }
+        }
+
+        &__text {
+            /* Prevent height collapsing with empty placeholder */
+            display: inline-block;
         }
     }
 

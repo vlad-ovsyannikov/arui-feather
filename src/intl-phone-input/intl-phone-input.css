@@ -35,8 +35,8 @@
 
     &__select-item-code {
         opacity: var(--opacity-minor);
-        margin-left: 6px;
-        font-size: 16px;
+        font-size: var(--font-size-m);
+        font-weight: var(--font-weight-normal);
     }
 }
 

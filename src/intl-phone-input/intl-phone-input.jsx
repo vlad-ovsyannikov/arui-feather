@@ -147,6 +147,10 @@ class IntlPhoneInput extends React.Component {
         this.setState({
             inputValue: value
         });
+
+        if (this.props.onChange) {
+            this.props.onChange();
+        }
     }
 
     @autobind
@@ -162,8 +166,7 @@ class IntlPhoneInput extends React.Component {
             value: country.iso2,
             text: (
                 <span>
-                    { country.name }
-                    <span className={ cn('select-item-code') }>+{ country.dialCode }</span>
+                    { country.name } <span className={ cn('select-item-code') }>+{ country.dialCode }</span>
                 </span>
             ),
             icon: <FlagIcon country={ country.iso2 } />

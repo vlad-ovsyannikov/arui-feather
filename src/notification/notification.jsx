@@ -13,6 +13,7 @@ import Icon from '../icon/icon';
 import cn from '../cn';
 import { isEventOutsideClientBounds } from '../lib/window';
 import performance from '../performance';
+import Swipeable from '../swipeable';
 
 /**
  * Компонент всплывающего окна.
@@ -106,48 +107,54 @@ class Notification extends React.Component {
 
     render(cn) {
         return (
-            <div
-                className={ cn({
-                    visible: this.props.visible,
-                    status: this.props.status,
-                    hovered: this.state.hovered,
-                    'stick-to': this.props.stickTo
-                }) }
-                id={ this.props.id }
-                onMouseEnter={ this.handleMouseEnter }
-                onMouseLeave={ this.handleMouseLeave }
-                onClick={ this.handleClick }
-                style={ this.getPosition() }
-                ref={ (root) => { this.root = root; } }
+            <Swipeable
+                onSwipeLeft={ this.handleCloserClick }
+                onSwipeRight={ this.handleCloserClick }
+                onSwipeTop={ this.handleCloserClick }
             >
-                <div className={ cn('icon') }>
+                <div
+                    className={ cn({
+                        visible: this.props.visible,
+                        status: this.props.status,
+                        hovered: this.state.hovered,
+                        'stick-to': this.props.stickTo
+                    }) }
+                    id={ this.props.id }
+                    onMouseEnter={ this.handleMouseEnter }
+                    onMouseLeave={ this.handleMouseLeave }
+                    onClick={ this.handleClick }
+                    style={ this.getPosition() }
+                    ref={ (root) => { this.root = root; } }
+                >
+                    <div className={ cn('icon') }>
+                        {
+                            this.props.icon ||
+                            <Icon
+                                theme='alfa-on-colored'
+                                icon={ this.props.status }
+                                size='m'
+                            />
+                        }
+                    </div>
+                    { this.props.title &&
+                        <div className={ cn('title') }>
+                            { this.props.title }
+                        </div>
+                    }
+                    <div className={ cn('content') }>
+                        { this.props.children }
+                    </div>
                     {
-                        this.props.icon ||
+                        this.props.hasCloser &&
                         <Icon
-                            theme='alfa-on-colored'
-                            icon={ this.props.status }
+                            className={ cn('close') }
                             size='m'
+                            icon='close'
+                            onClick={ this.handleCloserClick }
                         />
                     }
                 </div>
-                { this.props.title &&
-                    <div className={ cn('title') }>
-                        { this.props.title }
-                    </div>
-                }
-                <div className={ cn('content') }>
-                    { this.props.children }
-                </div>
-                {
-                    this.props.hasCloser &&
-                    <Icon
-                        className={ cn('close') }
-                        size='m'
-                        icon='close'
-                        onClick={ this.handleCloserClick }
-                    />
-                }
-            </div>
+            </Swipeable>
         );
     }
 
